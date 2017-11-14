@@ -11,12 +11,13 @@ import ohtu.data_access.*;
 import ohtu.services.*;
 
 public class Stepdefs {
+
     App app;
     StubIO io;
     UserDao userDao = new InMemoryUserDao();
     AuthenticationService auth = new AuthenticationService(userDao);
     List<String> inputLines = new ArrayList<>();
-    
+
     @Given("^command login is selected$")
     public void command_login_selected() throws Throwable {
         inputLines.add("login");
@@ -24,16 +25,55 @@ public class Stepdefs {
 
     @When("^username \"([^\"]*)\" and password \"([^\"]*)\" are entered$")
     public void a_username_and_password_are_entered(String username, String password) throws Throwable {
-       inputLines.add(username);
-       inputLines.add(password);
-       
-       io = new StubIO(inputLines); 
-       app = new App(io, auth);
-       app.run();
+        inputLines.add(username);
+        inputLines.add(password);
+
+        io = new StubIO(inputLines);
+        app = new App(io, auth);
+        app.run();
     }
+    
+      @When("^username \"([^\"]*)\" and wrong \"([^\"]*)\" are entered$")
+    public void username_and_wrong_are_entered(String arg1, String arg2) throws Throwable {
+        // Write code here that turns the phrase above into concrete actions
+        inputLines.add(arg1);
+        inputLines.add(arg2);
+        
+        io = new StubIO(inputLines);
+        app = new App (io, auth);
+        app.run();
+    }
+    
+    @When("^username \"([^\"]*)\" does not exist$")
+    public void username_does_not_exist(String arg1) throws Throwable {
+        // Write code here that turns the phrase above into concrete actions
+        inputLines.add(arg1);
+        inputLines.add("a");
+        
+        io = new StubIO(inputLines);
+        app = new App(io, auth);
+        app.run();
+    }
+    
+    
+    
+
+
+
+//    @When("^username \"([^\"]*)\" and password \"([^\"]*)\" are not entered$")
+//    public void a_username_and_password_are_not_entered(String username, String password) throws Throwable {
+//        inputLines.add(username);
+//        inputLines.add(password);
+//
+//        io = new StubIO(inputLines);
+//        app = new App(io, auth);
+//        app.run();
+//
+//    }
 
     @Then("^system will respond with \"([^\"]*)\"$")
     public void system_will_respond_with(String expectedOutput) throws Throwable {
         assertTrue(io.getPrints().contains(expectedOutput));
     }
+
 }
