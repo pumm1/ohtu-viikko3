@@ -22,6 +22,47 @@ public class Stepdefs {
     public void command_login_selected() throws Throwable {
         inputLines.add("login");
     }
+    
+    @Given("^user \"([^\"]*)\" with password \"([^\"]*)\" is created$")
+    public void user_with_password_is_created(String user, String pas) throws Throwable {
+        // Write code here that turns the phrase above into concrete actions
+        inputLines.add("new");
+        inputLines.add(user);
+        inputLines.add(pas);
+//        inputLines.add("login");
+    }
+
+    
+    @Given("^command new user is selected$")
+    public void new_user_selected() throws Throwable{
+        inputLines.add("new");
+    }
+    
+    @When("^username \"([^\"]*)\" and password \"([^\"]*)\" are given$")
+    public void username_and_password_are_given(String user, String pas) throws Throwable {
+        // Write code here that turns the phrase above into concrete actions
+        inputLines.add(user);
+        inputLines.add(pas);
+        
+        io = new StubIO(inputLines);
+        app = new App(io, auth);
+        app.run();
+    }
+    
+    
+    //VIKA
+    @When("^username \"([^\"]*)\" with password \"([^\"]*)\" are given$")
+    public void username_with_password_are_given(String user, String pas) throws Throwable {
+        // Write code here that turns the phrase above into concrete actions
+        inputLines.add(user);
+        inputLines.add(pas);
+        
+        io = new StubIO(inputLines);
+        app = new App(io, auth);
+        app.run();
+    }
+
+
 
     @When("^username \"([^\"]*)\" and password \"([^\"]*)\" are entered$")
     public void a_username_and_password_are_entered(String username, String password) throws Throwable {
@@ -54,6 +95,14 @@ public class Stepdefs {
         app = new App(io, auth);
         app.run();
     }
+    
+    @Then("^system will respond with \"([^\"]*)\";$")
+    public void system_will_respond_with1(String arg) throws Throwable {
+        // Write code here that turns the phrase above into concrete actions
+        assertTrue(io.getPrints().contains(arg));
+    }
+    
+    
     
     
     
